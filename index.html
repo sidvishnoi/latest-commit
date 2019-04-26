@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Last Updated</title>
+    <link rel="stylesheet" href="style.css" />
+    <meta
+      name="description"
+      content="Track changes at specific GitHub URLs, without the need to visit them at GitHub every time. Your data is saved locally in your browser. Uses GitHub v3/v4 APIs. Made by Sid Vishnoi."
+    />
+  </head>
+  <body>
+    <div id="limit"></div>
+    <form action="#" id="form">
+      <h1>Latest Commit</h1>
+      <p>Track changes at specific GitHub URLs. See options below.</p>
+      <label for="input">Enter a GitHub URL</label>
+      <input
+        id="input"
+        name="input"
+        type="url"
+        placeholder="https://github.com/sidvishnoi/latest-commit/tree/master/script.js"
+        pattern="https:\/\/github\.com\/([\w.-]+)\/([\w.-]+)\/(?:tree|blob)\/([\w.-]+)\/(.+)"
+        spellcheck="false"
+        required
+      />
+      <button>Submit</button>
+    </form>
+    <ul id="items"></ul>
+    <footer>
+      <p class="credits">
+        Made with 💖 by Sid Vishnoi<br /><a
+          href="https://github.com/sidvishnoi/latest-commit"
+          >https://github.com/sidvishnoi/latest-commit</a
+        >
+      </p>
+      <hr />
+      <p>
+        Track changes at specific GitHub URLs, without the need to visit them at
+        GitHub every time. Data is saved locally in your browser.
+      </p>
+      <p>
+        Uses GitHub v3/v4 APIs. Vanilla JS (+ web components) + CSS + HTML
+        (input validation FTW!).
+        <a href="https://github.com/jakearchibald/idb-keyval"
+          >jakearchibald/idb-keyval</a
+        >
+        for a light wrapper on IndexedDB.
+        <a href="https://github.com/hustcc/timeago.js">hustcc/timeago.js</a> for
+        displaying relative times.
+      </p>
+      <h3>Options:</h3>
+      <p>
+        👉 Add <code>?update</code> URL parameter to update data for all links.
+      </p>
+      <p>
+        👉 Add <code>?auto=TIME</code> URL parameter to auto-update data every
+        <code>TIME</code> seconds.
+      </p>
+      <p>
+        👉 Click "Link to this item" button on any item, then share the URL.
+      </p>
+      <form id="token">
+        <p>
+          You can opt-in to use GitHub v4 API (GraphQL based). You'll get 5000
+          requests limit, instead of 60 if you add a
+          <a href="https://github.com/settings/tokens/new"
+            >Personal access token</a
+          >. The token will be stored in your browser's localStorage for future
+          visits and not shared anywhere outside.
+        </p>
+        <input
+          name="token"
+          type="password"
+          placeholder="GitHub Personal access token for v4 API"
+          pattern="(^[a-z0-9]{40}$|)"
+        />
+        <button>Save Token</button>
+      </form>
+      <hr />
+      <details>
+        <summary>Notes:</summary>
+        <pre id="logs"></pre>
+      </details>
+    </footer>
+    <template id="item-template">
+      <h2>
+        <a href="URL"
+          ><span>OWNER/REPO</span> (<span>BRANCH</span>): <span>PATH</span>
+        </a>
+      </h2>
+      <p>
+        <a href="COMMIT_URL"><code>COMMIT_SHA1</code></a
+        >: <span>COMMIT_MESSAGE</span>
+      </p>
+      <p><time>COMMIT_TIME</time></p>
+      <div class="buttons">
+        <button class="remove" title="Remove item">❌</button>
+        <button class="refresh" title="Refresh data">🔃</button>
+        <button class="self-link" title="Link to this item">#️⃣</button>
+      </div>
+    </template>
+    <script src="vendor.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

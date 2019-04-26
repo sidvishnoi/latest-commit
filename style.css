@@ -1,0 +1,259 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --color-accent: hsl(158, 67%, 42%);
+  --color-accent-hover: hsl(158, 67%, 30%);
+  --font: "Inconsolata", "Monaco", "Operator Mono", Courier, monospace;
+  --shadow: 0 13px 27px -5px rgba(50, 50, 93, 0.25),
+    0 8px 16px -8px rgba(0, 0, 0, 0.3), 0 -6px 16px -6px rgba(0, 0, 0, 0.025);
+}
+
+html {
+  min-height: 100%;
+}
+
+html::before {
+  content: "";
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+  background: linear-gradient(150deg, #53f 15%, #05d5ff 70%, #a6ffcb 94%);
+  opacity: 0.5;
+}
+
+body {
+  font-family: var(--font);
+}
+
+#limit {
+  background: var(--color-accent);
+  width: 100%;
+  height: 4px;
+  transition: width 0.2s ease-in-out;
+}
+
+a {
+  font-weight: normal;
+  color: #24b47e;
+  text-decoration: none;
+}
+
+a:hover,
+a:focus {
+  text-decoration: underline;
+}
+
+.loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+form {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #fff;
+  padding: 1em;
+  margin-bottom: 1em;
+  line-height: 1.2;
+  transition: opacity 0.2s ease-in-out;
+}
+
+form h1,
+form label {
+  width: 100%;
+}
+
+form input {
+  flex: 1;
+  padding: 8px;
+  width: 100%;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  background: transparent;
+  border-radius: 4px 0 0 4px;
+  box-shadow: none;
+  font-family: var(--font);
+  transition: all 0.2s;
+}
+
+form input:focus {
+  background: rgba(0, 0, 0, 0.1);
+  outline: none;
+}
+
+form input:not(:placeholder-shown):invalid {
+  border-color: hsl(0, 63%, 46%);
+  background: hsl(0, 63%, 46%, 0.2);
+  border-radius: 0;
+}
+
+form button {
+  border: none;
+  background: var(--color-accent);
+  color: #fff;
+  padding: 8px;
+  border-radius: 0 4px 4px 0;
+  text-transform: uppercase;
+  font-family: var(--font);
+  font-weight: bold;
+  font-size: 100%;
+  transition: width 0.2s;
+}
+
+form button:hover,
+form button:focus {
+  background: var(--color-accent-hover);
+  cursor: pointer;
+}
+
+form:invalid button {
+  display: none;
+}
+
+form:valid input {
+  border-color: var(--color-accent);
+}
+
+ul {
+  list-style: none;
+  margin: 2em auto;
+  width: 90vw;
+  max-width: 800px;
+}
+
+li {
+  background: #fff;
+  padding: 1em 2em;
+  position: relative;
+  line-height: 1.3;
+  margin-bottom: 2em;
+  width: calc(100% - 26px);
+  box-shadow: var(--shadow);
+  transition: opacity 0.2s ease-in-out;
+}
+
+li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(-50%, 50%);
+  display: flex;
+  border-radius: 50%;
+  padding: 6px;
+  width: 1em;
+  height: 1em;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  background: var(--color-accent);
+}
+
+li.modified::before {
+  background: yellow;
+  color: #000;
+  content: "M";
+}
+
+li:target::before {
+  background: var(--color-accent-hover);
+  content: "#";
+}
+
+li h2 {
+  font-size: 1.3em;
+}
+
+li h2 span:nth-of-type(1) {
+  font-weight: bold;
+}
+
+li h2 span:nth-of-type(3) {
+  color: var(--color-accent-hover);
+}
+
+li .buttons {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.2);
+  right: 0;
+  top: 0;
+  transform: translateX(100%);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+}
+
+li button {
+  border: none;
+  background: none;
+  height: 100%;
+  padding: 6px 1em;
+  background-position: center;
+  background-size: 1.5em;
+  background-repeat: no-repeat;
+  text-indent: -10000px;
+}
+
+li button:hover,
+li button:focus {
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+li button.remove {
+  background-image: url(icons/remove.svg);
+}
+li button.refresh {
+  background-image: url(icons/refresh.svg);
+}
+li button.self-link {
+  background-image: url(icons/loc.svg);
+}
+
+li p:first-of-type {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+li p:first-of-type span {
+  font-style: italic;
+}
+
+footer {
+  background: #fff;
+  padding: 1em 2em;
+  line-height: 1.5;
+  max-width: 95vw;
+  margin: 0 auto;
+  box-shadow: var(--shadow);
+}
+
+footer p.credits {
+  text-align: center;
+}
+
+footer p + p {
+  margin: 1em 0;
+}
+
+footer code {
+  background: #eee;
+  padding: 3px;
+}
+
+hr {
+  border: none;
+  background: none;
+  border-bottom: 2px solid var(--color-accent);
+  margin: 1em auto;
+}
+
+#logs {
+  white-space: normal;
+}
