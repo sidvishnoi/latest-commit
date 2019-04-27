@@ -2,7 +2,7 @@
 
 Track changes at specific GitHub URLs, without the need to visit them at GitHub every time. Data is saved locally in your browser.
 
-Demo: https://sidvishnoi.github.io/latest-commit/
+Demo: https://latestcommit.netlify.com
 
 Uses GitHub v3/v4 APIs. Vanilla JS (+ web components) + CSS + HTML (input validation FTW!). [jakearchibald/idb-keyval](https://github.com/jakearchibald/idb-keyval) for a light wrapper on IndexedDB.
 [hustcc/timeago.js](https://github.com/hustcc/timeago.js)</a> for displaying relative times.
