@@ -185,7 +185,7 @@
     }
   });
 
-  $("#token").addEventListener("submit", function(ev) {
+  $("#token").addEventListener("submit", function (ev) {
     ev.preventDefault();
     OUTH_TOKEN = this.token.value;
     localStorage.setItem("token", OUTH_TOKEN);
