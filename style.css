@@ -5,8 +5,10 @@
 }
 
 :root {
-  --color-accent: hsl(261, 57%, 45%);
+  --color-accent: #5522fa;
   --color-accent-hover: hsl(261, 77%, 30%);
+  --gradient-a: linear-gradient(150deg, #53f 15%, #05d5ff 70%, #a6ffcb 94%);
+  --gradient-b: linear-gradient(90deg, #0074e4 0%, #5522fa 100%);
   --shadow: 0 13px 27px -5px rgba(50, 50, 93, 0.25),
     0 8px 16px -8px rgba(0, 0, 0, 0.3), 0 -6px 16px -6px rgba(0, 0, 0, 0.025);
 }
@@ -68,61 +70,53 @@ header button:hover {
 }
 
 form {
-  display: flex;
-  flex-wrap: wrap;
   padding: 1em;
-  margin-bottom: 1em;
-  transition: opacity 0.2s ease-in-out;
+  text-align: center;
+  border-radius: 0.4em 0 0 0.4em;
+  width: 80ch;
+  max-width: 95vw;
+  margin-left: auto;
+  background: var(--gradient-b);
+  color: #fff;
 }
 
-form h1,
-form label {
+form label,
+form input {
+  display: block;
   width: 100%;
+}
+
+form label {
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 0.4em;
+  font-size: 0.9em;
 }
 
 form input {
-  flex: 1;
-  padding: 8px;
-  width: 100%;
-  border: 2px solid rgba(0, 0, 0, 0.1);
-  background: transparent;
-  border-radius: 4px 0 0 4px;
+  padding: 0.5em;
+  border-radius: 2em;
   box-shadow: none;
   font-family: inherit;
+  background: #fff;
+  border: 2px solid transparent;
   transition: all 0.2s;
 }
 
 form input:focus {
-  background: rgba(0, 0, 0, 0.1);
   outline: none;
+  box-shadow: var(--shadow);
 }
 
 form input:not(:placeholder-shown):invalid {
   border-color: hsl(0, 63%, 46%);
-  background: hsl(0, 63%, 46%, 0.2);
   border-radius: 0;
-}
-
-form button {
-  border: none;
-  background: var(--color-accent);
-  color: #fff;
-  padding: 8px;
-  border-radius: 0 4px 4px 0;
-  text-transform: uppercase;
-  font-weight: bold;
-  font-size: 100%;
-  transition: width 0.2s;
+  box-shadow: none;
 }
 
 form button:hover,
 form button:focus {
   background: var(--color-accent-hover);
   cursor: pointer;
-}
-
-form:invalid button {
-  display: none;
 }
 
 form:valid input {
@@ -241,7 +235,7 @@ footer {
   padding: 1em 2em;
   box-shadow: var(--shadow);
   border: 3em solid;
-  border-image: linear-gradient(150deg, #53f 15%, #05d5ff 70%, #a6ffcb 94%);
+  border-image: var(--gradient-a);
   border-image-slice: 1;
 }
 
