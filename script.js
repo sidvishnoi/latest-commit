@@ -14,6 +14,7 @@
   const list = $("#items");
   const form = $("#form");
   const logs = $("#logs");
+  const editButton = $("#edit");
   const ONE_HOUR = 60 * 60 * 1000;
 
   new idbKeyval.Store();
@@ -134,14 +135,14 @@
       renderTitle() {
         const { url } = this.dataset;
 
-        const link = $("h2 a", this.template);
+        const link = $("h3 a", this.template);
         link.href = url;
 
         const { owner, name, branch, path } = getParams(url);
         const [elRepo, elBranch, elPath] = $$("span", link);
         elRepo.textContent = `${owner}/${name}`;
         elBranch.textContent = branch;
-        elPath.textContent = `/${path}`;
+        elPath.textContent = `${path}`;
       }
 
       renderCommit() {
@@ -150,6 +151,7 @@
         hash.href = link;
         hash.textContent = sha.substr(0, 8);
         $("p span", this.template).textContent = message;
+        $("p span", this.template).title = message;
       }
 
       renderTime() {
@@ -160,7 +162,7 @@
         const timeEl = $("time", this.template);
         timeEl.setAttribute("datetime", date.toISOString());
         timeago.render(timeEl);
-        timeEl.title = date + ".\nLast checked: " + lastChecked;
+        timeEl.title = `Modified: ${date}.\nLast checked: ${lastChecked}`;
       }
     },
     { extends: "li" },
@@ -213,6 +215,12 @@
     } else if (el.classList.contains("self-link")) {
       location.hash = item.id;
     }
+  });
+
+  editButton.addEventListener("click", () => {
+    document
+      .querySelectorAll("li article .buttons")
+      .forEach(el => el.classList.toggle("hidden"));
   });
 
   async function onReady() {

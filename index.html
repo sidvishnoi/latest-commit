@@ -8,16 +8,13 @@
       Latest Commit : Track GitHub URLs
     </title>
     <link rel="stylesheet" href="style.css">
-     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;900&display=swap" rel="stylesheet">
+     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;900&display=swap" rel="stylesheet">
     <meta name="description" content=
     "Track changes at specific GitHub URLs, without the need to visit them at GitHub every time. Your data is saved locally in your browser. Uses GitHub v3/v4 APIs. Made by Sid Vishnoi.">
   </head>
   <body>
     <div id="limit"></div>
-    <header>
-      <h1>Latest Commit</h1>
-      <button>⚙️ Settings</button>
-    </header>
+    <h1>Latest Commit</h1>
     <form action="#" id="form" name="form">
       <label for="input">Enter a GitHub URL to watch</label>
       <input id="input" name=
@@ -27,8 +24,14 @@
       "https:\/\/github\.com\/([\w.-]+)\/([\w.-]+)\/(?:tree|blob)\/([\w.-]+)\/(.+)"
       spellcheck="false" required="">
     </form>
-    <ul id="items"></ul>
-    <footer>
+    <main>
+      <h2>Modified since last view</h2>
+      <ul id="items"></ul>
+      <h2>Unchanged since last view</h2>
+      <ul id="items"></ul>
+    </main>
+    <button class="button" id="edit">⚙️ Edit</button>
+    <footer class="footer">
       <p class="credits">
         Made with 💖 by Sid Vishnoi<br>
         <a href=
@@ -80,24 +83,25 @@
       </details>
     </footer>
     <template id="item-template">
-      <h2>
-        <a href="URL"><span>OWNER/REPO</span> (<span>BRANCH</span>):
-        <span>PATH</span></a>
-      </h2>
-      <p>
-        <a href="COMMIT_URL"><code>COMMIT_SHA1</code></a>:
-        <span>COMMIT_MESSAGE</span>
-      </p>
-      <p>
+      <article>
+        <div>
+          <h3>
+            <a href="URL"><span>OWNER/REPO</span> (<span>BRANCH</span>): <span>PATH</span></a>
+          </h3>
+          <p>
+            <a href="COMMIT_URL"><code>COMMIT_SHA1</code></a>: <span>COMMIT_MESSAGE</span>
+          </p>
+        </div>
         <time>COMMIT_TIME</time>
-      </p>
-      <div class="buttons">
-        <button class="remove" title="Remove item">❌</button> <button class=
-        "refresh" title="Refresh data">🔃</button> <button class="self-link"
-        title="Link to this item">#️⃣</button>
-      </div>
+
+        <div class="buttons hidden">
+          <button class="remove" title="Remove item">❌</button>
+          <button class="refresh" title="Refresh data">🔃</button>
+          <button class="self-link" title="Link to this item">#️⃣</button>
+        </div>
+      </article>
     </template>
-    <script src="vendor.js"></script> 
+    <script src="vendor.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
