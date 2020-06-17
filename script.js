@@ -11,10 +11,17 @@
   const $ = (sel, ctx = document) => ctx.querySelector(sel);
   const $$ = (sel, ctx = document) => ctx.querySelectorAll(sel);
 
+  /** @type {HTMLUListElement} */
   const list = $("#items");
+  /** @type {HTMLFormElement} */
   const form = $("#form");
+  /** @type {HTMLElement} */
   const logs = $("#logs");
+  /** @type {HTMLButtonElement} */
   const editButton = $("#edit");
+  /** @type {HTMLElement} */
+  let dragSrcEl = null;
+
   const ONE_HOUR = 60 * 60 * 1000;
 
   new idbKeyval.Store();
@@ -118,14 +125,20 @@
     class extends HTMLLIElement {
       constructor() {
         super();
-        this.template = $("#item-template").content.cloneNode(true);
       }
 
       connectedCallback() {
+        const template = $("#item-template").content.cloneNode(true);
+        if (this.firstElementChild) {
+          this.replaceChild(template, this.firstElementChild);
+        } else {
+          this.appendChild(template);
+        }
+        this.setAttribute("draggable", "true");
         this.renderTitle();
         this.renderCommit();
         this.renderTime();
-        this.appendChild(this.template);
+        this.initDragDrop();
       }
 
       disconnectedCallback() {
@@ -135,7 +148,7 @@
       renderTitle() {
         const { url } = this.dataset;
 
-        const link = $("h3 a", this.template);
+        const link = $("h3 a", this);
         link.href = url;
 
         const { owner, name, branch, path } = getParams(url);
@@ -147,11 +160,11 @@
 
       renderCommit() {
         const { sha, link, message } = this.dataset;
-        const hash = $("p a", this.template);
+        const hash = $("p a", this);
         hash.href = link;
         hash.textContent = sha.substr(0, 8);
-        $("p span", this.template).textContent = message;
-        $("p span", this.template).title = message;
+        $("p span", this).textContent = message;
+        $("p span", this).title = message;
       }
 
       renderTime() {
@@ -159,10 +172,59 @@
         const lastChecked = new Date(
           parseInt(this.dataset.lastchecked, 10) || Date.now(),
         );
-        const timeEl = $("time", this.template);
+        const timeEl = $("time", this);
         timeEl.setAttribute("datetime", date.toISOString());
         timeago.render(timeEl);
         timeEl.title = `Modified: ${date}.\nLast checked: ${lastChecked}`;
+      }
+
+      initDragDrop() {
+        this.addEventListener("dragstart", this.onDragStart);
+        this.addEventListener("dragover", this.onDragOver);
+        this.addEventListener("dragleave", this.onDragLeave);
+        this.addEventListener("dragend", this.onDragEnd);
+        this.addEventListener("drop", this.onDrop);
+      }
+
+      onDragStart(ev) {
+        ev.dataTransfer.effectAllowed = "move";
+        dragSrcEl = this;
+        this.classList.add("drag-elem");
+        this.parentElement.classList.add("dragging");
+      }
+
+      onDragEnter(ev) {
+        const currentHoverTarget = ev.target;
+        currentHoverTarget.style.transform = `translateY(100%)`;
+      }
+
+      onDragOver(ev) {
+        ev.preventDefault();
+        ev.dataTransfer.dropEffect = "move";
+        this.classList.add("drag-over");
+      }
+
+      onDragLeave(ev) {
+        this.classList.remove("drag-over");
+      }
+
+      onDragEnd(ev) {
+        this.classList.remove("drag-over");
+      }
+
+      onDrop(ev) {
+        ev.stopPropagation();
+        if (dragSrcEl !== this) {
+          const children = [...this.parentElement.children];
+          const position =
+            children.indexOf(this) < children.indexOf(dragSrcEl)
+              ? "beforebegin"
+              : "afterend";
+          this.insertAdjacentElement(position, dragSrcEl);
+        }
+        dragSrcEl.classList.remove("drag-elem", "drag-over");
+        this.classList.remove("drag-over");
+        this.parentElement.classList.remove("dragging");
       }
     },
     { extends: "li" },
@@ -193,34 +255,32 @@
     localStorage.setItem("token", OUTH_TOKEN);
   });
 
-  list.addEventListener("click", async ev => {
-    if (ev.target.localName !== "button") return;
+  // list.addEventListener("click", async ev => {
+  //   if (ev.target.localName !== "button") return;
 
-    const el = ev.target;
-    const item = el.closest("li");
-    const url = item.dataset.url;
+  //   const el = ev.target;
+  //   const item = el.closest("li");
+  //   const url = item.dataset.url;
 
-    if (el.classList.contains("remove")) {
-      item.remove();
-      idbKeyval.del(url);
-    } else if (el.classList.contains("refresh")) {
-      try {
-        item.classList.add("loading");
-        await addItem(url);
-      } catch (error) {
-        // nothing
-      } finally {
-        item.classList.remove("loading");
-      }
-    } else if (el.classList.contains("self-link")) {
-      location.hash = item.id;
-    }
-  });
+  //   if (el.classList.contains("remove")) {
+  //     item.remove();
+  //     idbKeyval.del(url);
+  //   } else if (el.classList.contains("refresh")) {
+  //     try {
+  //       item.classList.add("loading");
+  //       await addItem(url);
+  //     } catch (error) {
+  //       // nothing
+  //     } finally {
+  //       item.classList.remove("loading");
+  //     }
+  //   } else if (el.classList.contains("self-link")) {
+  //     location.hash = item.id;
+  //   }
+  // });
 
   editButton.addEventListener("click", () => {
-    document
-      .querySelectorAll("li article .buttons")
-      .forEach(el => el.classList.toggle("hidden"));
+    form.classList.toggle("hidden");
   });
 
   async function onReady() {

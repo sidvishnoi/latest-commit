@@ -52,18 +52,131 @@ h1 {
   text-align: center;
 }
 
+main {
+  padding: 1em;
+  width: 120ch;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+h2 {
+  text-transform: uppercase;
+  font-size: 1em;
+  display: flex;
+  align-items: center;
+  padding: 0 1em;
+}
+
+h2::after {
+  content: "";
+  flex: 1;
+  height: 2px;
+  background: var(--gradient-a);
+  margin-left: 1ch;
+}
+
+ul {
+  list-style: none;
+}
+
+li {
+  padding: 1em;
+  position: relative;
+  transition: all 0.2s ease-in-out;
+}
+
+.drag-elem,
+.drag-over {
+  box-shadow: var(--shadow);
+}
+
+.drag-elem {
+  opacity: 0.1;
+}
+
+.drag-over {
+  background: rgba(179, 244, 224, 0.6);
+  animation: pulsate 1s ease-in-out infinite alternate-reverse;
+  animation-delay: 0.5s;
+}
+
+@keyframes pulsate {
+  from {
+    transform: scale(1.01);
+  }
+}
+
+li article {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+li article time {
+  color: #444;
+  font-size: 0.9em;
+  font-weight: bold;
+}
+
+li.modified::before {
+  background: yellow;
+  color: #000;
+  content: "M";
+}
+
+li:target a {
+  background: var(--gradient-a);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+li h3 span:nth-of-type(1) {
+  font-weight: 600;
+}
+
+li h3 span:nth-of-type(3) {
+  color: var(--color-accent-hover);
+}
+
+li p {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  color: #555;
+  font-size: 0.9em;
+  width: 50ch;
+  max-width: 90vw;
+}
+
+li p span {
+  font-style: italic;
+}
+
+.form {
+  position: fixed;
+  right: 1em;
+  bottom: 1em;
+  z-index: 10;
+  text-align: right;
+}
+
 form {
   padding: 1em;
   text-align: center;
-  border-radius: 0.4em 0 0 0.4em;
+  border-radius: 0.4em;
   width: 80ch;
-  min-width: 60vw;
   max-width: 95vw;
   margin-left: auto;
   background: var(--gradient-b);
   color: #fff;
+  margin-bottom: 0.4rem;
+  transition: opacity 0.2s ease-in-out;
+}
 
-  display: none;
+form.hidden {
+  opacity: 0;
+  pointer-events: none;
 }
 
 form label,
@@ -109,126 +222,6 @@ form:valid input {
   border-color: var(--color-accent);
 }
 
-main {
-  padding: 1em;
-  width: 100ch;
-  max-width: 100%;
-  margin: 0 auto;
-}
-
-h2 {
-  text-transform: uppercase;
-  font-size: 1em;
-  display: flex;
-  align-items: center;
-}
-
-h2::after {
-  content: "";
-  flex: 1;
-  height: 2px;
-  background: var(--gradient-a);
-  margin-left: 1ch;
-}
-
-ul {
-  list-style: none;
-}
-
-li {
-  padding: 1em 0;
-  position: relative;
-  transition: opacity 0.2s ease-in-out;
-}
-
-li article {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-
-li article time {
-  color: #444;
-  font-size: 0.9em;
-  font-weight: bold;
-}
-
-li.modified::before {
-  background: yellow;
-  color: #000;
-  content: "M";
-}
-
-li:target a {
-  background: var(--gradient-a);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-li h3 span:nth-of-type(1) {
-  font-weight: 600;
-}
-
-li h3 span:nth-of-type(3) {
-  color: var(--color-accent-hover);
-}
-
-li .buttons {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  display: flex;
-  justify-content: space-between;
-  transition: opacity 0.2s ease-in-out;
-}
-
-li .buttons.hidden {
-  opacity: 0;
-  pointer-events: none;
-}
-
-li button {
-  border: none;
-  background: none;
-  height: 100%;
-  padding: 6px 1em;
-  background-position: center;
-  background-size: 1.5em;
-  background-repeat: no-repeat;
-  text-indent: -10000px;
-}
-
-li button:hover,
-li button:focus {
-  cursor: pointer;
-  background-color: rgba(255, 255, 255, 0.4);
-}
-
-li button.remove {
-  background-image: url(icons/remove.svg);
-}
-li button.refresh {
-  background-image: url(icons/refresh.svg);
-}
-li button.self-link {
-  background-image: url(icons/loc.svg);
-}
-
-li p {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-  color: #555;
-  font-size: 0.9em;
-  width: 50ch;
-  max-width: 90vw;
-}
-
-li p span {
-  font-style: italic;
-}
-
 .button {
   background: none;
   border: none;
@@ -238,9 +231,6 @@ li p span {
   border: 3px solid var(--color-accent);
   border-radius: 1.5em;
   transition: all 0.2s ease-in-out;
-  position: fixed;
-  right: 1em;
-  bottom: 1em;
   font-size: 1em;
 }
 

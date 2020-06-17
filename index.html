@@ -15,22 +15,24 @@
   <body>
     <div id="limit"></div>
     <h1>Latest Commit</h1>
-    <form action="#" id="form" name="form">
-      <label for="input">Enter a GitHub URL to watch</label>
-      <input id="input" name=
-      "input" type="url" placeholder=
-      "https://github.com/sidvishnoi/latest-commit/tree/master/script.js"
-      pattern=
-      "https:\/\/github\.com\/([\w.-]+)\/([\w.-]+)\/(?:tree|blob)\/([\w.-]+)\/(.+)"
-      spellcheck="false" required="">
-    </form>
     <main>
       <h2>Modified since last view</h2>
       <ul id="items"></ul>
       <h2>Unchanged since last view</h2>
       <ul id="items"></ul>
     </main>
-    <button class="button" id="edit">⚙️ Edit</button>
+    <div class="form">
+      <form action="#" id="form" class="hidden">
+        <label for="input">Enter a GitHub URL to watch</label>
+        <input id="input" name=
+        "input" type="url" placeholder=
+        "https://github.com/sidvishnoi/latest-commit/tree/master/script.js"
+        pattern=
+        "https:\/\/github\.com\/([\w.-]+)\/([\w.-]+)\/(?:tree|blob)\/([\w.-]+)\/(.+)"
+        spellcheck="false" required="">
+      </form>
+      <button class="button" id="edit">⚙️ Edit</button>
+    </div>
     <footer class="footer">
       <p class="credits">
         Made with 💖 by Sid Vishnoi<br>
@@ -86,19 +88,13 @@
       <article>
         <div>
           <h3>
-            <a href="URL"><span>OWNER/REPO</span> (<span>BRANCH</span>): <span>PATH</span></a>
+            <a href="URL"><span>OWNER/REPO</span> (<span>BRANCH</span>) <span>PATH</span></a>
           </h3>
           <p>
             <a href="COMMIT_URL"><code>COMMIT_SHA1</code></a>: <span>COMMIT_MESSAGE</span>
           </p>
         </div>
         <time>COMMIT_TIME</time>
-
-        <div class="buttons hidden">
-          <button class="remove" title="Remove item">❌</button>
-          <button class="refresh" title="Refresh data">🔃</button>
-          <button class="self-link" title="Link to this item">#️⃣</button>
-        </div>
       </article>
     </template>
     <script src="vendor.js"></script>
